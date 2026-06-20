@@ -1,4 +1,0 @@
-interface:
-  display_name: "班级作业提交检查"
-  short_description: "批量核对班级作业提交、格式与异常，并生成标准检查结果文件"
-  default_prompt: "Use $homework-submission-audit to audit a class submission package and generate validated GBK .output and .errcode files."
