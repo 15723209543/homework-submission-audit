@@ -1,0 +1,45 @@
+{
+  "task_name": "example-homework",
+  "students": [
+    {
+      "name": "张三",
+      "student_id": "2025000001",
+      "statuses": ["SUCC"]
+    },
+    {
+      "name": "李四",
+      "student_id": "2025000002",
+      "statuses": ["NF"]
+    },
+    {
+      "name": "王五",
+      "student_id": "2025000003",
+      "statuses": ["101", "301", "601"]
+    }
+  ],
+  "outsiders": [],
+  "extra_checks": [
+    {
+      "requirement": "必须提交源代码说明文件",
+      "result": "fail",
+      "code": "601"
+    }
+  ],
+  "errors": [
+    {
+      "category": "个人信息错误",
+      "code": "101",
+      "fix": "修改正文中的学号，确保与班级名单一致。"
+    },
+    {
+      "category": "任务完成错误",
+      "code": "301",
+      "fix": "补全缺少的必做题目。"
+    },
+    {
+      "category": "其他任务需求错误",
+      "code": "601",
+      "fix": "补交用户要求的源代码说明文件。"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+interface:
+  display_name: "HFUT 班级作业提交检查"
+  short_description: "高预警核对提交、格式、内容、相似性及用户自定义检查项"
+  default_prompt: "使用 $HFUT-homework-submission-audit 检查这批班级作业。（规范标识：$hfut-homework-submission-audit）"
+
+policy:
+  allow_implicit_invocation: true
