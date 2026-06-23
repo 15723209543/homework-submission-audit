@@ -45,7 +45,59 @@
 
 ---
 
-## 3. Skill 标识
+## 3. 可行性分析
+
+本 Skill 已经完成两次班级作业检查实战，能够在真实提交材料中完成名单匹配、错误码登记、问题汇总和结果文件输出，具备继续使用和迭代优化的基础。
+
+截至目前，实际检查战绩如下：
+
+- 累计查获 **14 项个人信息错误** 的作业。
+- 查获 **6 项不符合要求** 的作业。
+- 向 **27 人次同学** 发出预警。
+
+从两次实战结果来看，本 Skill 在“批量初筛”场景中具有较高实用价值。它可以快速定位未提交、个人信息错误、格式不规范、任务完成不完整等常见问题，减少人工逐份打开文件检查的重复劳动，也能让检查结果以 `.output` 和 `.errcode` 的形式统一保存，便于后续复核、反馈和归档。
+
+同时，本 Skill 的输出定位仍然是辅助检查。除是否提交外，其他结果仍需人工复核，尤其是 AI 风险、相似性风险、格式细节和任务完成度等判断，不应直接作为最终成绩或最终违规认定依据。
+
+---
+
+## 4. 可优化方向
+
+后续可以从以下方向继续优化：
+
+1. **增强文件解析能力**  
+   进一步提升对 Word、PDF、Excel、图片型 PDF、混合压缩包等文件的解析效果，减少因格式复杂导致的误判或漏判。
+
+2. **优化模板比对能力**  
+   支持更细粒度地识别模板结构、章节标题、表格内容、必填区域和附件要求，让格式错误与任务完成错误的区分更加准确。
+
+3. **完善相似性检查机制**  
+   在相似性分析前自动排除题目原文、课程模板、教师提供的公共内容和常见固定表述，减少把正常相似内容误判为抄袭风险的情况。
+
+4. **改进 AI 风险提示逻辑**  
+   继续坚持“不输出确定性 AI 率、不直接认定 AI 生成”的原则，转向输出更可复核的风险信号，例如语言风格突变、事实冲突、异常结构重复等。
+
+5. **支持更多压缩包格式**  
+   当前脚本原生支持目录和 `.zip`，后续可以增强对 `.7z`、`.rar` 等格式的兼容能力，并对无法解析的压缩包给出更清晰的未检查范围说明。
+
+6. **增加统计汇总报告**  
+   在 `.output` 和 `.errcode` 之外，增加一个可选的统计报告，例如已提交人数、未提交人数、各类错误码数量、名单外提交者数量、未检查文件数量等。
+
+7. **加强证据记录能力**  
+   对每一个错误码记录对应证据来源，例如文件名、页码、章节、截图位置或文本片段，方便人工复核时快速定位问题。
+
+8. **扩展代码类作业检查**  
+   对程序设计、数据结构、算法实验等代码类作业，可以增加编译检查、运行检查、超时检查、输出格式检查等可选模块，并使用 6 开头错误码记录额外任务结果。
+
+9. **优化交互式使用体验**  
+   后续可让 Skill 在信息不足时主动询问缺失材料，例如班级名单、模板、命名规则、是否允许多人一组、是否检查代码、是否检查附件等。
+
+10. **提高结果可移植性**  
+    除 GBK 编码的 `.output` 和 `.errcode` 外，可额外生成 UTF-8 的 JSON、CSV 或 Markdown 汇总文件，便于跨平台查看和二次处理。
+
+---
+
+## 5. Skill 标识
 
 Skill 内部名称：
 
@@ -69,9 +121,9 @@ $hfut-homework-submission-audit
 
 ---
 
-## 4. 安装方法
+## 6. 安装方法
 
-### 4.1 Windows 安装
+### 6.1 Windows 安装
 
 将 `hfut-homework-submission-audit-skill.zip` 发送给使用者，让对方在 PowerShell 中进入压缩包所在目录后运行：
 
@@ -101,7 +153,7 @@ C:\Users\用户名\.codex\skills\hfut-homework-submission-audit
 
 然后重启 Codex 或新建对话。
 
-### 4.2 macOS / Linux 安装
+### 6.2 macOS / Linux 安装
 
 把压缩包放到当前目录后运行：
 
@@ -125,7 +177,7 @@ unzip hfut-homework-submission-audit-skill.zip -d ~/.codex/skills
 
 然后重启 Codex 或新建对话。
 
-### 4.3 从 GitHub 仓库安装
+### 6.3 从 GitHub 仓库安装
 
 如果通过 GitHub 仓库发布，可以直接克隆到 Codex skills 目录。
 
@@ -153,7 +205,7 @@ hfut-homework-submission-audit/SKILL.md
 
 ---
 
-## 5. 调用方式
+## 7. 调用方式
 
 安装完成并重启 Codex 后，可以在新对话中这样调用：
 
@@ -196,11 +248,11 @@ hfut-homework-submission-audit/SKILL.md
 
 ---
 
-## 6. 输入文件要求
+## 8. 输入文件要求
 
 本 Skill 通常需要三类输入材料。
 
-### 6.1 班级名单
+### 8.1 班级名单
 
 班级名单至少应包含：
 
@@ -222,7 +274,7 @@ hfut-homework-submission-audit/SKILL.md
 - 不擅自改名。
 - 如果出现重名、重复学号、空字段，应提示人工复核。
 
-### 6.2 作业要求及模板
+### 8.2 作业要求及模板
 
 作业要求和模板建议包含：
 
@@ -241,7 +293,7 @@ hfut-homework-submission-audit/SKILL.md
 - 少写、漏写模板或题目要求的必要内容才算问题。
 - 如果作业要求和模板冲突，应记录冲突并提示人工确认。
 
-### 6.3 学生提交文件
+### 8.3 学生提交文件
 
 提交文件可以是：
 
@@ -259,7 +311,7 @@ hfut-homework-submission-audit/SKILL.md
 
 ---
 
-## 7. 输出文件要求
+## 9. 输出文件要求
 
 本 Skill 输出两个主要文件：
 
@@ -286,7 +338,7 @@ experiment1.errcode
 
 ---
 
-## 8. `.output` 文件说明
+## 10. `.output` 文件说明
 
 `.output` 文件用于输出每位学生的提交情况。
 
@@ -347,7 +399,7 @@ experiment1.errcode
 
 ---
 
-## 9. `.errcode` 文件说明
+## 11. `.errcode` 文件说明
 
 `.errcode` 文件用于输出本次检查实际使用的错误码、错误类型和修改建议。
 
@@ -398,7 +450,7 @@ experiment1.errcode
 
 ---
 
-## 10. 错误码规则
+## 12. 错误码规则
 
 错误码统一使用三位数字表示：
 
@@ -418,7 +470,7 @@ experiment1.errcode
 | `5xx` | 文件异常 | 损坏、为空、加密、编码、体积、扩展名伪装、宏、路径、版本等异常 |
 | `6xx` | 其他任务需求错误 | 用户本次额外提出的检查任务未通过 |
 
-### 10.1 `6xx` 说明
+### 12.1 `6xx` 说明
 
 `6xx` 专门用于用户本次额外提出的检查任务，例如：
 
@@ -439,7 +491,7 @@ experiment1.errcode
 
 ---
 
-## 11. 目录结构
+## 13. 目录结构
 
 本 Skill 的目录结构如下：
 
@@ -479,9 +531,9 @@ hfut-homework-submission-audit/
 
 ---
 
-## 12. 脚本使用说明
+## 14. 脚本使用说明
 
-### 12.1 盘点提交文件
+### 14.1 盘点提交文件
 
 ```bash
 python <skill-dir>/scripts/preflight_inventory.py <TASK_DIR> --output <TASK_DIR>/.hfut-homework-audit/inventory.json
@@ -500,7 +552,7 @@ python <skill-dir>/scripts/preflight_inventory.py <TASK_DIR> --output <TASK_DIR>
 - 不安全归档路径
 - 无法读取文件
 
-### 12.2 生成 `.output` 和 `.errcode`
+### 14.2 生成 `.output` 和 `.errcode`
 
 先根据检查结果生成 UTF-8 编码的 `audit-result.json`，再运行：
 
@@ -527,7 +579,7 @@ class-report.errcode
 --overwrite
 ```
 
-### 12.3 校验输出文件
+### 14.3 校验输出文件
 
 ```bash
 python <skill-dir>/scripts/validate_audit_files.py <TASK_DIR>/<名称>.output <TASK_DIR>/<名称>.errcode
@@ -548,7 +600,7 @@ python <skill-dir>/scripts/validate_audit_files.py <TASK_DIR>/<名称>.output <T
 
 ---
 
-## 13. 推荐工作流程
+## 15. 推荐工作流程
 
 建议按以下流程使用：
 
@@ -569,11 +621,11 @@ python <skill-dir>/scripts/validate_audit_files.py <TASK_DIR>/<名称>.output <T
 
 ---
 
-## 14. AI 与抄袭风险边界
+## 16. AI 与抄袭风险边界
 
 本 Skill 只做风险提示，不做最终认定。
 
-### 14.1 AI 风险
+### 16.1 AI 风险
 
 不应输出确定性“AI 率”。
 
@@ -601,7 +653,7 @@ python <skill-dir>/scripts/validate_audit_files.py <TASK_DIR>/<名称>.output <T
 该作业确定为 AI 生成。
 ```
 
-### 14.2 相似或抄袭风险
+### 16.2 相似或抄袭风险
 
 检查相似性时，应先排除：
 
@@ -616,7 +668,7 @@ python <skill-dir>/scripts/validate_audit_files.py <TASK_DIR>/<名称>.output <T
 
 ---
 
-## 15. 安全边界
+## 17. 安全边界
 
 本 Skill 默认只做静态读取和检查，不执行学生提交的程序、宏或脚本。
 
@@ -632,7 +684,7 @@ python <skill-dir>/scripts/validate_audit_files.py <TASK_DIR>/<名称>.output <T
 
 ---
 
-## 16. 重要说明与免责声明
+## 18. 重要说明与免责声明
 
 本 Skill 输出结果主要用于辅助整理和初步筛查班级作业提交情况。
 
@@ -652,7 +704,7 @@ python <skill-dir>/scripts/validate_audit_files.py <TASK_DIR>/<名称>.output <T
 
 ---
 
-## 17. 问题反馈
+## 19. 问题反馈
 
 问题反馈方式：
 
